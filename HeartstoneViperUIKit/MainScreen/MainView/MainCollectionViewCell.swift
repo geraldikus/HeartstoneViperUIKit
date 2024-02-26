@@ -15,6 +15,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         return label
     }()
     

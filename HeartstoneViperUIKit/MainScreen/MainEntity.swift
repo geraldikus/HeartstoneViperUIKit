@@ -29,3 +29,17 @@ struct Mechanics: Codable, Hashable {
     let name: String
 }
 
+//struct CardBack: Codable, Hashable {
+//    let cardBackId: Int
+//    let name: String
+//    let description: String
+//    let source: String
+//    let howToGet: String
+//    let enabled: Bool
+//    let img: String
+//    let imgAnimated: String
+//    let sortCategory: Int
+//    let sortOrder: Int
+//    let locale: String
+//}
+

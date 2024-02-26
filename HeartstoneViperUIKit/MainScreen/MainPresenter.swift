@@ -11,6 +11,39 @@ import Foundation
 // protocol
 // ref to interacter, router and view
 
+
+//protocol MainPresenterProtocol {
+//    
+//    var mainIntercator: MainInteractorProtocol? { get set }
+//    var mainRouter: MainRouterProtocol? { get set }
+//    var mainView: MainViewProtocol? { get set }
+//    
+//    func interactorDidFetchData(with result: Result<[Cards], Error>)
+//}
+//
+//class MainPresenter: MainPresenterProtocol {
+//    
+//    var mainRouter: MainRouterProtocol?
+//    
+//    var mainView: MainViewProtocol?
+//
+//    var mainIntercator: MainInteractorProtocol? {
+//        didSet {
+//            mainIntercator?.getdata(for: Endpoints.beast)
+//        }
+//    }
+//    
+//    func interactorDidFetchData(with result: Result<[Cards], Error>) {
+//        switch result {
+//        case .success(let cards):
+//            print("Datais ok. Cards: \(cards)")
+//            mainView?.updateData(with: cards, for: Endpoints.beast)
+//        case .failure:
+//            print("Error in interactorDidFetchData")
+//        }
+//    }
+//}
+
 protocol MainPresenterProtocol {
     
     var mainIntercator: MainInteractorProtocol? { get set }
@@ -28,16 +61,18 @@ class MainPresenter: MainPresenterProtocol {
 
     var mainIntercator: MainInteractorProtocol? {
         didSet {
-            mainIntercator?.getdata(for: Race.mech)
+            mainIntercator?.getdata(for: Endpoints.mech)
         }
     }
     
     func interactorDidFetchData(with result: Result<[Cards], Error>) {
         switch result {
         case .success(let cards):
-            print("Datais ok. Cards: \(cards)")
+            print("Datais ok.")
+            mainView?.updateData(with: cards, for: Endpoints.beast)
         case .failure:
             print("Error in interactorDidFetchData")
         }
     }
 }
+
