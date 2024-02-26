@@ -15,23 +15,29 @@ import Alamofire
 
 protocol MainInteractorProtocol {
     var mainPresenter: MainPresenterProtocol? { get set }
-    func getdata(for race: Race)
+    func getdata(for race: Endpoints)
 }
 
 class MainInteractor: MainInteractorProtocol {
     
     var mainPresenter: MainPresenterProtocol?
     
-    private func createURL(for race: Race) -> String {
-        let baseURL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/cards/races/"
+    private func createURL(for race: Endpoints) -> String {
+       // let baseURL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/cards/races/"
+        let baseURL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/cardbacks"
         let url = baseURL + race.rawValue
         return url
     }
     
-    func getdata(for race: Race) {
+    func getdata(for race: Endpoints) {
         print("Start fetching data")
         
         let url = createURL(for: race)
+        
+//        let headers: HTTPHeaders = [
+//            "X-RapidAPI-Key": "6f7c12bfe7msheef9f26bb3dc196p19f87cjsn5b15ab876cd2",
+//            "X-RapidAPI-Host": "omgvamp-hearthstone-v1.p.rapidapi.com"
+//        ]
         
         let headers: HTTPHeaders = [
             "X-RapidAPI-Key": "6f7c12bfe7msheef9f26bb3dc196p19f87cjsn5b15ab876cd2",
@@ -41,40 +47,20 @@ class MainInteractor: MainInteractorProtocol {
         AF.request(url, headers: headers).validate()
             .response { response in
                 guard let data = response.data else {
-                    self.mainPresenter?.interactorDidFetchData(with: .failure(FetchError.failed))
+                    self.mainPresenter?.interactorDidFetchData(with: .failure(FetchError.failed), for: race)
                     print("Cannot find data")
                     return
                 }
                 
                 do {
-                    print("Data: \(data)")
-                    print(String(data: data, encoding: .utf8))
                     let entities = try JSONDecoder().decode([Cards].self, from: data)
-                    self.mainPresenter?.interactorDidFetchData(with: .success(entities))
+                    self.mainPresenter?.interactorDidFetchData(with: .success(entities), for: race)
                 }
                 catch {
-                    self.mainPresenter?.interactorDidFetchData(with: .failure(error))
+                    self.mainPresenter?.interactorDidFetchData(with: .failure(error), for: race)
                 }
                 
             }
     }
 }
 
-enum Race: String {
-    case beast = "Beast"
-    case demon = "Demon"
-    case dragon = "Dragon"
-    case elemental = "Elemental"
-    case mech = "Mech"
-    case murloc = "Murloc"
-    case pirate = "Pirate"
-    case totem = "Totem"
-    case all = "All"
-    case general = "General"
-    
-    static let allRaces: [Race] = [.beast, .demon, .dragon, .elemental, .mech, .murloc, .pirate, .totem, .all, .general]
-}
-
-enum FetchError: Error {
-    case failed
-}

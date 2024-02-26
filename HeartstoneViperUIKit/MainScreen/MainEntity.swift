@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Cards: Codable {
+struct Cards: Codable, Hashable {
     let cardId: String
     let dbfId: Int
     let name: String
@@ -25,7 +25,7 @@ struct Cards: Codable {
     let mechanics: [Mechanics]?
 }
 
-struct Mechanics: Codable {
+struct Mechanics: Codable, Hashable {
     let name: String
 }
 
