@@ -61,18 +61,20 @@ class MainPresenter: MainPresenterProtocol {
 
     var mainIntercator: MainInteractorProtocol? {
         didSet {
-            mainIntercator?.getdata(for: Endpoints.mech)
+            mainIntercator?.getdata(for: Endpoints.beast)
+            mainIntercator?.getdata(for: Endpoints.demon)
         }
     }
     
     func interactorDidFetchData(with result: Result<[Cards], Error>) {
         switch result {
         case .success(let cards):
-            print("Datais ok.")
-            mainView?.updateData(with: cards, for: Endpoints.beast)
-        case .failure:
-            print("Error in interactorDidFetchData")
+            print("Data is ok.")
+            mainView?.updateData(with: cards)
+        case .failure(let error):
+            print("Error in interactorDidFetchData: \(error)")
         }
     }
+
 }
 

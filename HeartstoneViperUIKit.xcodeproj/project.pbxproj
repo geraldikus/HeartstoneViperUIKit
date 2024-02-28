@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A6193252B8DB7EC0054D1D6 /* DemonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6193242B8DB7EC0054D1D6 /* DemonCollectionViewCell.swift */; };
 		3AA9A80F2B8724A00002B1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A80E2B8724A00002B1CA /* AppDelegate.swift */; };
 		3AA9A8112B8724A00002B1CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8102B8724A00002B1CA /* SceneDelegate.swift */; };
 		3AA9A8132B8724A00002B1CA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8122B8724A00002B1CA /* MainViewController.swift */; };
@@ -19,10 +20,11 @@
 		3AA9A82D2B872AC20002B1CA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3AA9A82C2B872AC20002B1CA /* Alamofire */; };
 		3AA9A8322B874BE80002B1CA /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8312B874BE80002B1CA /* Endpoints.swift */; };
 		3AA9A8342B874C220002B1CA /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8332B874C220002B1CA /* Errors.swift */; };
-		3AA9A8372B8751D30002B1CA /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8362B8751D30002B1CA /* MainCollectionViewCell.swift */; };
+		3AA9A8372B8751D30002B1CA /* BeastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8362B8751D30002B1CA /* BeastCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A6193242B8DB7EC0054D1D6 /* DemonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemonCollectionViewCell.swift; sourceTree = "<group>"; };
 		3AA9A80B2B8724A00002B1CA /* HeartstoneViperUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeartstoneViperUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AA9A80E2B8724A00002B1CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3AA9A8102B8724A00002B1CA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -36,7 +38,7 @@
 		3AA9A8292B87265E0002B1CA /* MainRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouter.swift; sourceTree = "<group>"; };
 		3AA9A8312B874BE80002B1CA /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		3AA9A8332B874C220002B1CA /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		3AA9A8362B8751D30002B1CA /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
+		3AA9A8362B8751D30002B1CA /* BeastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeastCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				3AA9A8122B8724A00002B1CA /* MainViewController.swift */,
-				3AA9A8362B8751D30002B1CA /* MainCollectionViewCell.swift */,
+				3AA9A8362B8751D30002B1CA /* BeastCollectionViewCell.swift */,
+				3A6193242B8DB7EC0054D1D6 /* DemonCollectionViewCell.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -188,13 +191,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AA9A8262B87263F0002B1CA /* MainPresenter.swift in Sources */,
+				3A6193252B8DB7EC0054D1D6 /* DemonCollectionViewCell.swift in Sources */,
 				3AA9A82A2B87265E0002B1CA /* MainRouter.swift in Sources */,
 				3AA9A8132B8724A00002B1CA /* MainViewController.swift in Sources */,
 				3AA9A80F2B8724A00002B1CA /* AppDelegate.swift in Sources */,
 				3AA9A8112B8724A00002B1CA /* SceneDelegate.swift in Sources */,
 				3AA9A8242B8726360002B1CA /* MainInteractor.swift in Sources */,
 				3AA9A8322B874BE80002B1CA /* Endpoints.swift in Sources */,
-				3AA9A8372B8751D30002B1CA /* MainCollectionViewCell.swift in Sources */,
+				3AA9A8372B8751D30002B1CA /* BeastCollectionViewCell.swift in Sources */,
 				3AA9A8342B874C220002B1CA /* Errors.swift in Sources */,
 				3AA9A8282B8726560002B1CA /* MainEntity.swift in Sources */,
 			);

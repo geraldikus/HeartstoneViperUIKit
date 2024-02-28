@@ -14,22 +14,23 @@ import UIKit
 protocol MainViewProtocol {
     var mainPresenter: MainPresenterProtocol? { get set }
     
-    func updateData(with cards: [Cards], for race: Endpoints)
+    func updateData(with cards: [Cards])
     func updateData(with error: [Error])
 }
 
 class MainViewController: UIViewController, MainViewProtocol {
     
-    typealias DataSource = UICollectionViewDiffableDataSource<Endpoints, Cards>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Endpoints, Cards>
+    typealias DataSource = UICollectionViewDiffableDataSource<String, Cards>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<String, Cards>
     
     var mainPresenter: MainPresenterProtocol?
     
     private var collectionView: UICollectionView!
     private var layout: UICollectionViewFlowLayout!
-    var dataForRaces: [Endpoints: [Cards]] = [:]
-    var section: [Endpoints] = Endpoints.allRaces
     var dataSource: DataSource!
+    var snapshot: Snapshot!
+    var cards = [Cards]()
+    let sections = ["Beast", "Demon"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,82 +44,93 @@ class MainViewController: UIViewController, MainViewProtocol {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .green
         view.addSubview(collectionView)
-        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.reuseId)
+        collectionView.register(BeastCollectionViewCell.self, forCellWithReuseIdentifier: BeastCollectionViewCell.reuseId)
+        collectionView.register(DemonsCollectionViewCell.self, forCellWithReuseIdentifier: DemonsCollectionViewCell.reuseId)
     }
     
-    func createCompositionalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, layotEnvironment in
+    private func createCompositionalLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, layoutEnvironment in
+           
+            let section = self?.sections[sectionIndex]
             
-            let section = self.section[sectionIndex]
-            
-            return self.createHorizontalSection()
+            switch section {
+            case "Beast", "Demon":
+                return self?.createHorizontalSection()
+            default:
+                return nil
+            }
         }
-        
         return layout
     }
-    
-    func createHorizontalSection() -> NSCollectionLayoutSection {
 
+    
+    private func createHorizontalSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(400))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 8)
+        
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: itemSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 6, trailing: 3)
+        section.interGroupSpacing = 5
         
-        //let header = createSectionHeader()
-        
-        //section.boundarySupplementaryItems = [header]
         return section
     }
 
-
-
-    
-    private func configureDataSource() {
-        dataSource = DataSource(collectionView: collectionView) { (collectionView, indexPath, card) -> UICollectionViewCell? in
+    func configureDataSource() {
+        dataSource = DataSource(collectionView: collectionView) { [weak self] (collectionView, indexPath, card) -> UICollectionViewCell? in
+            guard let self = self else { return nil }
             
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.reuseId, for: indexPath) as? MainCollectionViewCell else {
-                print("Cannot create cell")
-                return UICollectionViewCell()
-            }
-            cell.beastName.text = card.name
-            cell.backgroundColor = .yellow
-            cell.layer.cornerRadius = 10
-            return cell
-        }
-        applySnapshot()
-    }
-    
-    private func applySnapshot() {
-            var snapshot = Snapshot()
-            snapshot.appendSections(section)
-            for race in section {
-                snapshot.appendItems(dataForRaces[race] ?? [], toSection: race)
-            }
-            dataSource.apply(snapshot, animatingDifferences: true)
-        }
-    
-    func updateData(with cards: [Cards], for race: Endpoints) {
-        print("Got data for \(race)")
-        DispatchQueue.main.async { [weak self] in
-            self?.dataForRaces[race] = cards
-            print("Data is ok.")
-            if let strongSelf = self {
-                strongSelf.applySnapshot()
-                strongSelf.collectionView.reloadData()
-            } else {
-                print("Something get wrong")
+            switch self.sections[indexPath.section] {
+            case "Beast":
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BeastCell", for: indexPath) as! BeastCollectionViewCell
+                cell.beastName.text = card.name
+                cell.beastRace.text = card.race
+                cell.backgroundColor = .yellow
+                cell.layer.cornerRadius = 10
+                return cell
+            case "Demon":
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DemonCell", for: indexPath) as! DemonsCollectionViewCell
+                cell.demonName.text = card.name
+                cell.demonRace.text = card.race
+                cell.backgroundColor = .red
+                cell.layer.cornerRadius = 10
+                return cell
+            default:
+                fatalError("Unknown race: \(String(describing: card.race))")
             }
         }
+        snapshot = Snapshot()
+        applySnapshot(with: cards)
     }
 
+    
+    private func applySnapshot(with cards: [Cards]) {
+        guard let dataSource = dataSource else { return }
+        snapshot.deleteAllItems()
+        snapshot.appendSections(sections)
+        
+        for card in cards {
+            snapshot.appendItems([card], toSection: sections.randomElement())
+        }
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
+        print("Cards: \(cards)")
+    }
+    
+    func updateData(with cards: [Cards]) {
+        print("Got data for Cards count: \(cards.count)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.cards = cards
+            self.applySnapshot(with: cards)
+        }
+    }
     
     func updateData(with error: [Error]) {
         print("Something went wrong")
     }
 }
-

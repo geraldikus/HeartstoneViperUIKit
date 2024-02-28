@@ -7,11 +7,19 @@
 
 import UIKit
 
-class MainCollectionViewCell: UICollectionViewCell {
+class BeastCollectionViewCell: UICollectionViewCell {
     
     static let reuseId = "BeastCell"
     
     let beastName: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let beastRace: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,10 +34,14 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     private func setupCell() {
         contentView.addSubview(beastName)
+        contentView.addSubview(beastRace)
         
         NSLayoutConstraint.activate([
             beastName.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            beastName.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            beastName.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            beastRace.topAnchor.constraint(equalTo: beastName.bottomAnchor, constant: 10),
+            beastRace.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
     
