@@ -13,7 +13,7 @@ class DemonsCollectionViewCell: UICollectionViewCell {
     
     let demonName: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .purple
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label

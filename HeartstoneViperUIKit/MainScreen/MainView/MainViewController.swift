@@ -20,8 +20,8 @@ protocol MainViewProtocol {
 
 class MainViewController: UIViewController, MainViewProtocol {
     
-    typealias DataSource = UICollectionViewDiffableDataSource<String, Cards>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<String, Cards>
+    typealias DataSource = UICollectionViewDiffableDataSource<Sections, Cards>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, Cards>
     
     var mainPresenter: MainPresenterProtocol?
     
@@ -30,7 +30,7 @@ class MainViewController: UIViewController, MainViewProtocol {
     var dataSource: DataSource!
     var snapshot: Snapshot!
     var cards = [Cards]()
-    let sections = ["Beast", "Demon"]
+    var sections = [Sections]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,7 @@ class MainViewController: UIViewController, MainViewProtocol {
     private func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .green
+        collectionView.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         collectionView.register(BeastCollectionViewCell.self, forCellWithReuseIdentifier: BeastCollectionViewCell.reuseId)
         collectionView.register(DemonsCollectionViewCell.self, forCellWithReuseIdentifier: DemonsCollectionViewCell.reuseId)
@@ -51,7 +51,7 @@ class MainViewController: UIViewController, MainViewProtocol {
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, layoutEnvironment in
            
-            let section = self?.sections[sectionIndex]
+            let section = self?.sections[sectionIndex].race
             
             switch section {
             case "Beast", "Demon":
@@ -84,19 +84,21 @@ class MainViewController: UIViewController, MainViewProtocol {
         dataSource = DataSource(collectionView: collectionView) { [weak self] (collectionView, indexPath, card) -> UICollectionViewCell? in
             guard let self = self else { return nil }
             
-            switch self.sections[indexPath.section] {
+            let raceSection = sections[indexPath.section].race
+            
+            switch raceSection {
             case "Beast":
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BeastCell", for: indexPath) as! BeastCollectionViewCell
                 cell.beastName.text = card.name
                 cell.beastRace.text = card.race
-                cell.backgroundColor = .yellow
+                cell.backgroundColor = .gray.withAlphaComponent(0.3)
                 cell.layer.cornerRadius = 10
                 return cell
             case "Demon":
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DemonCell", for: indexPath) as! DemonsCollectionViewCell
                 cell.demonName.text = card.name
                 cell.demonRace.text = card.race
-                cell.backgroundColor = .red
+                cell.backgroundColor = .gray.withAlphaComponent(0.3)
                 cell.layer.cornerRadius = 10
                 return cell
             default:
@@ -106,6 +108,16 @@ class MainViewController: UIViewController, MainViewProtocol {
         snapshot = Snapshot()
         applySnapshot(with: cards)
     }
+    
+    private func appendSections() {
+        let beastSection = Sections(race: "Beast", items: cards)
+        let demonSection = Sections(race: "Demon", items: cards)
+        
+        sections.append(beastSection)
+        sections.append(demonSection)
+        
+        print("Sections: \(sections)")
+    }
 
     
     private func applySnapshot(with cards: [Cards]) {
@@ -113,8 +125,8 @@ class MainViewController: UIViewController, MainViewProtocol {
         snapshot.deleteAllItems()
         snapshot.appendSections(sections)
         
-        for card in cards {
-            snapshot.appendItems([card], toSection: sections.randomElement())
+        for section in sections {
+            snapshot.appendItems(section.items, toSection: section)
         }
         
         dataSource.apply(snapshot, animatingDifferences: true)
@@ -126,6 +138,7 @@ class MainViewController: UIViewController, MainViewProtocol {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.cards = cards
+            appendSections()
             self.applySnapshot(with: cards)
         }
     }
@@ -133,4 +146,9 @@ class MainViewController: UIViewController, MainViewProtocol {
     func updateData(with error: [Error]) {
         print("Something went wrong")
     }
+}
+
+struct Sections: Hashable {
+    let race: String
+    let items: [Cards]
 }

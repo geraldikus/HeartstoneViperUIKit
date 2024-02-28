@@ -13,7 +13,7 @@ class BeastCollectionViewCell: UICollectionViewCell {
     
     let beastName: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .green
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label

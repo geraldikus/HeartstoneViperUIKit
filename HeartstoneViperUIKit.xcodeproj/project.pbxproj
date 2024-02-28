@@ -74,6 +74,7 @@
 			children = (
 				3AA9A80E2B8724A00002B1CA /* AppDelegate.swift */,
 				3AA9A8102B8724A00002B1CA /* SceneDelegate.swift */,
+				3AED6E0A2B8F4C8C0011F2F8 /* Helpers */,
 				3AA9A8302B874BCF0002B1CA /* Network */,
 				3AA9A8222B8726220002B1CA /* MainScreen */,
 				3AA9A8172B8724A30002B1CA /* Assets.xcassets */,
@@ -112,6 +113,13 @@
 				3A6193242B8DB7EC0054D1D6 /* DemonCollectionViewCell.swift */,
 			);
 			path = MainView;
+			sourceTree = "<group>";
+		};
+		3AED6E0A2B8F4C8C0011F2F8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
