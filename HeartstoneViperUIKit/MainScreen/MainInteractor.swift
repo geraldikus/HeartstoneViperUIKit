@@ -18,7 +18,7 @@ protocol MainInteractorProtocol {
     func getdata(for race: Endpoints)
 }
 
-class MainInteractor: MainInteractorProtocol {
+final class MainInteractor: MainInteractorProtocol {
     
     var mainPresenter: MainPresenterProtocol?
     

@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
 
 // ViewController
 // Protocol
@@ -44,8 +46,7 @@ class MainViewController: UIViewController, MainViewProtocol {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .systemBackground
         view.addSubview(collectionView)
-        collectionView.register(BeastCollectionViewCell.self, forCellWithReuseIdentifier: BeastCollectionViewCell.reuseId)
-        collectionView.register(DemonsCollectionViewCell.self, forCellWithReuseIdentifier: DemonsCollectionViewCell.reuseId)
+        collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: CardCollectionViewCell.reuseId)
     }
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
@@ -64,18 +65,19 @@ class MainViewController: UIViewController, MainViewProtocol {
     }
 
     
-    private func createHorizontalSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(400))
+    func createHorizontalSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(300))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 8)
+        item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 0, trailing: 8)
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: itemSize, subitems: [item])
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(200), heightDimension: .estimated(100))
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 6, trailing: 3)
-        section.interGroupSpacing = 5
+        section.contentInsets = NSDirectionalEdgeInsets.init(top: 12, leading: 20, bottom: 16, trailing: 12)
         
         return section
     }
@@ -83,30 +85,37 @@ class MainViewController: UIViewController, MainViewProtocol {
     func configureDataSource() {
         dataSource = DataSource(collectionView: collectionView) { [weak self] (collectionView, indexPath, card) -> UICollectionViewCell? in
             guard let self = self else { return nil }
+            let raceSection = self.sections[indexPath.section].race
             
-            let raceSection = sections[indexPath.section].race
+            let imageURLString = card.img
+            guard let imageURL = URL(string: imageURLString ?? "Empty") else {
+                print("Wrong image url")
+                print("ImageURL: \(String(describing: imageURLString))")
+                return UICollectionViewCell()
+            }
             
             switch raceSection {
-            case "Beast":
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BeastCell", for: indexPath) as! BeastCollectionViewCell
-                cell.beastName.text = card.name
-                cell.beastRace.text = card.race
-                cell.backgroundColor = .gray.withAlphaComponent(0.3)
-                cell.layer.cornerRadius = 10
-                return cell
-            case "Demon":
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DemonCell", for: indexPath) as! DemonsCollectionViewCell
-                cell.demonName.text = card.name
-                cell.demonRace.text = card.race
-                cell.backgroundColor = .gray.withAlphaComponent(0.3)
-                cell.layer.cornerRadius = 10
-                return cell
+            case "Beast", "Demon":
+                return self.configureCell(for: collectionView, at: indexPath, with: card, imageURL: imageURL)
             default:
                 fatalError("Unknown race: \(String(describing: card.race))")
             }
         }
         snapshot = Snapshot()
         applySnapshot(with: cards)
+    }
+
+    
+    private func configureCell(for collectionView: UICollectionView, at indexPath: IndexPath, with card: Cards, imageURL: URL) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCollectionViewCell.reuseId, for: indexPath) as! CardCollectionViewCell
+        
+        cell.cardImage.af.setImage(withURL: imageURL, placeholderImage: UIImage(named: "heartstone"))
+        cell.cardName.text = card.name
+        cell.cardRace.text = card.race
+        cell.backgroundColor = .gray.withAlphaComponent(0.1)
+        cell.layer.cornerRadius = 10
+        
+        return cell
     }
     
     private func appendSections() {
@@ -146,9 +155,4 @@ class MainViewController: UIViewController, MainViewProtocol {
     func updateData(with error: [Error]) {
         print("Something went wrong")
     }
-}
-
-struct Sections: Hashable {
-    let race: String
-    let items: [Cards]
 }

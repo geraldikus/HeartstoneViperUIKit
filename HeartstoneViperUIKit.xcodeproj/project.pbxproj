@@ -20,7 +20,7 @@
 		3AA9A82D2B872AC20002B1CA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3AA9A82C2B872AC20002B1CA /* Alamofire */; };
 		3AA9A8322B874BE80002B1CA /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8312B874BE80002B1CA /* Endpoints.swift */; };
 		3AA9A8342B874C220002B1CA /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8332B874C220002B1CA /* Errors.swift */; };
-		3AA9A8372B8751D30002B1CA /* BeastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A8362B8751D30002B1CA /* BeastCollectionViewCell.swift */; };
+		3AED6E0D2B8F53090011F2F8 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 3AED6E0C2B8F53090011F2F8 /* AlamofireImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,7 +38,6 @@
 		3AA9A8292B87265E0002B1CA /* MainRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouter.swift; sourceTree = "<group>"; };
 		3AA9A8312B874BE80002B1CA /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		3AA9A8332B874C220002B1CA /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		3AA9A8362B8751D30002B1CA /* BeastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeastCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +46,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AA9A82D2B872AC20002B1CA /* Alamofire in Frameworks */,
+				3AED6E0D2B8F53090011F2F8 /* AlamofireImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +109,6 @@
 			isa = PBXGroup;
 			children = (
 				3AA9A8122B8724A00002B1CA /* MainViewController.swift */,
-				3AA9A8362B8751D30002B1CA /* BeastCollectionViewCell.swift */,
 				3A6193242B8DB7EC0054D1D6 /* DemonCollectionViewCell.swift */,
 			);
 			path = MainView;
@@ -140,6 +139,7 @@
 			name = HeartstoneViperUIKit;
 			packageProductDependencies = (
 				3AA9A82C2B872AC20002B1CA /* Alamofire */,
+				3AED6E0C2B8F53090011F2F8 /* AlamofireImage */,
 			);
 			productName = HeartstoneViperUIKit;
 			productReference = 3AA9A80B2B8724A00002B1CA /* HeartstoneViperUIKit.app */;
@@ -171,6 +171,7 @@
 			mainGroup = 3AA9A8022B8724A00002B1CA;
 			packageReferences = (
 				3AA9A82B2B872AC20002B1CA /* XCRemoteSwiftPackageReference "Alamofire" */,
+				3AED6E0B2B8F53090011F2F8 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
 			);
 			productRefGroup = 3AA9A80C2B8724A00002B1CA /* Products */;
 			projectDirPath = "";
@@ -206,7 +207,6 @@
 				3AA9A8112B8724A00002B1CA /* SceneDelegate.swift in Sources */,
 				3AA9A8242B8726360002B1CA /* MainInteractor.swift in Sources */,
 				3AA9A8322B874BE80002B1CA /* Endpoints.swift in Sources */,
-				3AA9A8372B8751D30002B1CA /* BeastCollectionViewCell.swift in Sources */,
 				3AA9A8342B874C220002B1CA /* Errors.swift in Sources */,
 				3AA9A8282B8726560002B1CA /* MainEntity.swift in Sources */,
 			);
@@ -433,6 +433,14 @@
 				minimumVersion = 5.8.1;
 			};
 		};
+		3AED6E0B2B8F53090011F2F8 /* XCRemoteSwiftPackageReference "AlamofireImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/AlamofireImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -440,6 +448,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AA9A82B2B872AC20002B1CA /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		3AED6E0C2B8F53090011F2F8 /* AlamofireImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AED6E0B2B8F53090011F2F8 /* XCRemoteSwiftPackageReference "AlamofireImage" */;
+			productName = AlamofireImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
