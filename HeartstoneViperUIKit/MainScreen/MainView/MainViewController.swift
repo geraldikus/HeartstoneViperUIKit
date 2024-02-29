@@ -45,6 +45,7 @@ class MainViewController: UIViewController, MainViewProtocol {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .systemBackground
+        collectionView.delegate = self
         view.addSubview(collectionView)
         collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: CardCollectionViewCell.reuseId)
     }
@@ -154,5 +155,15 @@ class MainViewController: UIViewController, MainViewProtocol {
     
     func updateData(with error: [Error]) {
         print("Something went wrong")
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let selectedSection = sections[indexPath.section]
+        let selectedCard = selectedSection.items[indexPath.item]
+        print("Tapped name: \(selectedCard.name)")
+        print("Tapped race: \(selectedCard.race)")
     }
 }
