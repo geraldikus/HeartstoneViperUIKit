@@ -30,6 +30,8 @@ class MainPresenter: MainPresenterProtocol {
         didSet {
             mainIntercator?.getdata(for: Endpoints.beast)
             mainIntercator?.getdata(for: Endpoints.demon)
+            mainIntercator?.getdata(for: Endpoints.dragon)
+            mainIntercator?.getdata(for: Endpoints.murloc)
         }
     }
     
@@ -42,6 +44,5 @@ class MainPresenter: MainPresenterProtocol {
             print("Error in interactorDidFetchData: \(error)")
         }
     }
-
 }
 

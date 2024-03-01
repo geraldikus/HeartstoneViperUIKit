@@ -53,7 +53,6 @@ final class MainInteractor: MainInteractorProtocol {
                 catch {
                     self.mainPresenter?.interactorDidFetchData(with: .failure(error))
                 }
-                
             }
     }
 }

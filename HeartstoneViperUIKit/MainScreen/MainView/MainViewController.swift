@@ -38,7 +38,6 @@ class MainViewController: UIViewController, MainViewProtocol {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupCollectionView()
-        configureDataSource()
     }
     
     private func setupCollectionView() {
@@ -47,7 +46,9 @@ class MainViewController: UIViewController, MainViewProtocol {
         collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
         view.addSubview(collectionView)
+        
         collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: CardCollectionViewCell.reuseId)
+        collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseId)
     }
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
@@ -56,7 +57,7 @@ class MainViewController: UIViewController, MainViewProtocol {
             let section = self?.sections[sectionIndex].race
             
             switch section {
-            case "Beast", "Demon":
+            case "Race":
                 return self?.createHorizontalSection()
             default:
                 return nil
@@ -80,13 +81,15 @@ class MainViewController: UIViewController, MainViewProtocol {
         section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets.init(top: 12, leading: 20, bottom: 16, trailing: 12)
         
+        let header = createSectionHeaderLayout()
+        section.boundarySupplementaryItems = [header]
+        
         return section
     }
 
     func configureDataSource() {
         dataSource = DataSource(collectionView: collectionView) { [weak self] (collectionView, indexPath, card) -> UICollectionViewCell? in
-            guard let self = self else { return nil }
-            let raceSection = self.sections[indexPath.section].race
+            let raceSection = self?.sections[indexPath.section].race
             
             let imageURLString = card.img
             guard let imageURL = URL(string: imageURLString ?? "Empty") else {
@@ -96,19 +99,20 @@ class MainViewController: UIViewController, MainViewProtocol {
             }
             
             switch raceSection {
-            case "Beast", "Demon":
-                return self.configureCell(for: collectionView, at: indexPath, with: card, imageURL: imageURL)
+            case "Race":
+                return self?.configureCell(for: collectionView, at: indexPath, with: card, imageURL: imageURL)
             default:
                 fatalError("Unknown race: \(String(describing: card.race))")
             }
         }
+        
         snapshot = Snapshot()
-        applySnapshot(with: cards)
+        createHeader()
     }
 
     
     private func configureCell(for collectionView: UICollectionView, at indexPath: IndexPath, with card: Cards, imageURL: URL) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCollectionViewCell.reuseId, for: indexPath) as! CardCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCollectionViewCell.reuseId, for: indexPath) as? CardCollectionViewCell else { return UICollectionViewCell() }
         
         cell.cardImage.af.setImage(withURL: imageURL, placeholderImage: UIImage(named: "heartstone"))
         cell.cardName.text = card.name
@@ -120,15 +124,37 @@ class MainViewController: UIViewController, MainViewProtocol {
     }
     
     private func appendSections() {
-        let beastSection = Sections(race: "Beast", items: cards)
-        let demonSection = Sections(race: "Demon", items: cards)
-        
-        sections.append(beastSection)
-        sections.append(demonSection)
-        
-        print("Sections: \(sections)")
+        let raceSection = Sections(race: "Race", items: cards)
+        sections.append(raceSection)
     }
 
+    func createSectionHeaderLayout() -> NSCollectionLayoutBoundarySupplementaryItem {
+        
+        let layoutSectionHeaderSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(1))
+        
+        let layoutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: layoutSectionHeaderSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        
+        return layoutSectionHeader
+    }
+    
+    private func createHeader() {
+        dataSource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
+            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.reuseId, for: indexPath) as? SectionHeader else { return UICollectionReusableView() }
+
+            if let section = self?.sections[indexPath.section], let firstItem = section.items.first {
+                sectionHeader.label.text = firstItem.race
+            } else {
+                sectionHeader.label.text = "No title"
+            }
+            
+            return sectionHeader
+        }
+    }
     
     private func applySnapshot(with cards: [Cards]) {
         guard let dataSource = dataSource else { return }
@@ -146,10 +172,10 @@ class MainViewController: UIViewController, MainViewProtocol {
     func updateData(with cards: [Cards]) {
         print("Got data for Cards count: \(cards.count)")
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.cards = cards
-            appendSections()
-            self.applySnapshot(with: cards)
+            self?.cards = cards
+            self?.appendSections()
+            self?.configureDataSource()
+            self?.applySnapshot(with: cards)
         }
     }
     
@@ -163,7 +189,9 @@ extension MainViewController: UICollectionViewDelegate {
         
         let selectedSection = sections[indexPath.section]
         let selectedCard = selectedSection.items[indexPath.item]
+        
         print("Tapped name: \(selectedCard.name)")
         print("Tapped race: \(selectedCard.race)")
+        print("Tapped ID: \(selectedCard.cardId)")
     }
 }

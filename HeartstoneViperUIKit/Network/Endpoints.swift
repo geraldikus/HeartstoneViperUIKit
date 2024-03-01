@@ -18,6 +18,4 @@ enum Endpoints: String {
     case totem = "Totem"
     case all = "All"
     case general = "General"
-    
-    static let allRaces: [Endpoints] = [.beast, .demon, .dragon, .elemental, .mech, .murloc, .pirate, .totem, .all, .general]
 }
