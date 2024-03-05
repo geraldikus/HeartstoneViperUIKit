@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SectionHeader: UICollectionReusableView {
+final class SectionHeader: UICollectionReusableView {
     
     static let reuseId = "SectionHeader"
     
@@ -32,10 +32,6 @@ class SectionHeader: UICollectionReusableView {
             label.trailingAnchor.constraint(equalTo: trailingAnchor),
             label.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-    
-    func setupLabel(with text: String) {
-        label.text = text
     }
     
     required init?(coder: NSCoder) {

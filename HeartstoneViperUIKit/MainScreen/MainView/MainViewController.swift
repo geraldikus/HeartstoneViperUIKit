@@ -17,7 +17,6 @@ protocol MainViewProtocol {
     var mainPresenter: MainPresenterProtocol? { get set }
     
     func updateData(with cards: [Cards])
-    func updateData(with error: [Error])
 }
 
 class MainViewController: UIViewController, MainViewProtocol {
@@ -29,10 +28,10 @@ class MainViewController: UIViewController, MainViewProtocol {
     
     private var collectionView: UICollectionView!
     private var layout: UICollectionViewFlowLayout!
-    var dataSource: DataSource!
-    var snapshot: Snapshot!
-    var cards = [Cards]()
-    var sections = [Sections]()
+    private var dataSource: DataSource!
+    private var snapshot: Snapshot!
+    private var cards = [Cards]()
+    private var sections = [Sections]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +66,7 @@ class MainViewController: UIViewController, MainViewProtocol {
     }
 
     
-    func createHorizontalSection() -> NSCollectionLayoutSection {
+    private func createHorizontalSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(300))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -87,7 +86,7 @@ class MainViewController: UIViewController, MainViewProtocol {
         return section
     }
 
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = DataSource(collectionView: collectionView) { [weak self] (collectionView, indexPath, card) -> UICollectionViewCell? in
             let raceSection = self?.sections[indexPath.section].race
             
@@ -128,7 +127,7 @@ class MainViewController: UIViewController, MainViewProtocol {
         sections.append(raceSection)
     }
 
-    func createSectionHeaderLayout() -> NSCollectionLayoutBoundarySupplementaryItem {
+    private func createSectionHeaderLayout() -> NSCollectionLayoutBoundarySupplementaryItem {
         
         let layoutSectionHeaderSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
@@ -177,10 +176,6 @@ class MainViewController: UIViewController, MainViewProtocol {
             self?.configureDataSource()
             self?.applySnapshot(with: cards)
         }
-    }
-    
-    func updateData(with error: [Error]) {
-        print("Something went wrong")
     }
 }
 

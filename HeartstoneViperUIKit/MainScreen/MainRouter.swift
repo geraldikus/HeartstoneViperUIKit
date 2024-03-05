@@ -40,5 +40,4 @@ class MainRouter: MainRouterProtocol {
         
         return router
     }
-    
 }
