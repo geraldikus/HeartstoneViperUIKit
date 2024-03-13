@@ -17,7 +17,7 @@ protocol NetworkProtocol {
     func request(endpoint: String, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
-class Network: NetworkProtocol {
+final class Network: NetworkProtocol {
     
     let baseURL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/cards/"
     let headers: HTTPHeaders = [

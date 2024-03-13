@@ -6,10 +6,18 @@
 //
 
 import Foundation
+import UIKit
 
 // object
 // protocol
 // ref to interacter, router and view
+
+// 1. Презентер через роутер делал навигацию +
+// 2. Данные во вью передавались через роутер +
+// 3  Сделаьть Network все детали реализиции взаимодействия с апи +
+// 3. Кэш данных второго экрана (в нетворке сделать)
+// 4. Использовать нетворк в интеракторе +
+// 5. DI IOC контейнер - подключить
 
 protocol MainPresenterProtocol {
     
@@ -17,27 +25,12 @@ protocol MainPresenterProtocol {
     var mainRouter: MainRouterProtocol? { get set }
     var mainView: MainViewProtocol? { get set }
     
-//    var network: NetworkProtocol? { get set }
-    
     func interactorDidFetchData(with result: Result<[Cards], Error>)
+    func didSelectCard(name: String, race: String)
+    func setNavigationController(_ navigationController: UINavigationController?)
 }
 
 class MainPresenter: MainPresenterProtocol {
-    
-    
-//    var network: NetworkProtocol? {
-//        didSet {
-//            network?.getData(races: "races", endpoints: Endpoints.beast, id: nil)
-//            network?.getData(races: "", endpoints: Endpoints.beast, id: nil)
-//        }
-//    }
-    
-    // 1. Презентер через роутер делал навигацию
-    // 2. Данные во вью передавались через роутер
-    // 3  Сделаьть Network все детали реализиции взаимодействия с апи
-    // 3. Кэш данных второго экрана (в нетворке сделать)
-    // 4. Использовать нетворк в интеракторе
-    // 5. DI IOC контейнер - подключить
     
     var mainRouter: MainRouterProtocol?
     
@@ -60,6 +53,14 @@ class MainPresenter: MainPresenterProtocol {
         case .failure(let error):
             print("Error in interactorDidFetchData: \(error)")
         }
+    }
+    
+    func didSelectCard(name: String, race: String) {
+        mainRouter?.navigateToDetail(withName: name, andRace: race)
+    }
+    
+    func setNavigationController(_ navigationController: UINavigationController?) {
+        mainRouter?.navigationController = navigationController
     }
 }
 

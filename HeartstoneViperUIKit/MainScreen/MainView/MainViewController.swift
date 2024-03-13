@@ -37,6 +37,7 @@ class MainViewController: UIViewController, MainViewProtocol {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupCollectionView()
+        mainPresenter?.setNavigationController(navigationController)
     }
     
     private func setupCollectionView() {
@@ -189,9 +190,6 @@ extension MainViewController: UICollectionViewDelegate {
         print("Tapped race: \(selectedCard.race)")
         print("Tapped ID: \(selectedCard.cardId)")
         
-        let detailRouter = DetailScreenRouter.startDetail(name: selectedCard.name, race: selectedCard.race)
-        guard let detailView = detailRouter.entry else { return }
-        
-        navigationController?.pushViewController(detailView, animated: true)
+        mainPresenter?.didSelectCard(name: selectedCard.name, race: selectedCard.race)
     }
 }
