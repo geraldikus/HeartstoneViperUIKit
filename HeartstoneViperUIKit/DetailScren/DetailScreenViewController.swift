@@ -10,6 +10,8 @@ import UIKit
 protocol DetailViewProtocol {
     
     var detailPresenter: DetailPresenterProtocol? { get set }
+    var name: String? { get set }
+    var race: String? { get set }
     
     func updateData(with image: UIImage)
 }

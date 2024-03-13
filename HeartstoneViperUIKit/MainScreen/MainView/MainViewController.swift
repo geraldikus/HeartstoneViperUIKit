@@ -189,10 +189,9 @@ extension MainViewController: UICollectionViewDelegate {
         print("Tapped race: \(selectedCard.race)")
         print("Tapped ID: \(selectedCard.cardId)")
         
-        let newScreen = DetailScreenViewController()
-        newScreen.name = selectedCard.name
-        newScreen.race = selectedCard.race
+        let detailRouter = DetailScreenRouter.startDetail(name: selectedCard.name, race: selectedCard.race)
+        guard let detailView = detailRouter.entry else { return }
         
-        navigationController?.pushViewController(newScreen, animated: true)
+        navigationController?.pushViewController(detailView, animated: true)
     }
 }
