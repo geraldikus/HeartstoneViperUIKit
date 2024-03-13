@@ -18,7 +18,7 @@ protocol MainRouterProtocol {
     var navigationController: UINavigationController? { get set }
     
     static func start() -> MainRouterProtocol
-    func navigateToDetail(withName name: String, andRace race: String)
+    func navigateToDetail(withName name: String, andRace race: String, andImage image: UIImage?)
 }
 
 class MainRouter: MainRouterProtocol {
@@ -44,8 +44,8 @@ class MainRouter: MainRouterProtocol {
         return router
     }
     
-    func navigateToDetail(withName name: String, andRace race: String) {
-        let detailRouter = DetailScreenRouter.startDetail(name: name, race: race)
+    func navigateToDetail(withName name: String, andRace race: String, andImage image: UIImage?) {
+            let detailRouter = DetailScreenRouter.startDetail(name: name, race: race, image: image)
         guard let detailView = detailRouter.entry else {
             print("Cannot find detail router")
             return

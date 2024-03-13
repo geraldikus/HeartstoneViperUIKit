@@ -186,10 +186,13 @@ extension MainViewController: UICollectionViewDelegate {
         let selectedSection = sections[indexPath.section]
         let selectedCard = selectedSection.items[indexPath.item]
         
+        let cell = collectionView.cellForItem(at: indexPath) as? CardCollectionViewCell
+        let selectedImage = cell?.cardImage.image
+        
         print("Tapped name: \(selectedCard.name)")
         print("Tapped race: \(selectedCard.race)")
         print("Tapped ID: \(selectedCard.cardId)")
         
-        mainPresenter?.didSelectCard(name: selectedCard.name, race: selectedCard.race)
+        mainPresenter?.didSelectCard(name: selectedCard.name, race: selectedCard.race, image: selectedImage)
     }
 }

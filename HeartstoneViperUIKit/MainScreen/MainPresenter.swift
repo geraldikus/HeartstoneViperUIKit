@@ -26,7 +26,7 @@ protocol MainPresenterProtocol {
     var mainView: MainViewProtocol? { get set }
     
     func interactorDidFetchData(with result: Result<[Cards], Error>)
-    func didSelectCard(name: String, race: String)
+    func didSelectCard(name: String, race: String, image: UIImage?)
     func setNavigationController(_ navigationController: UINavigationController?)
 }
 
@@ -55,8 +55,8 @@ class MainPresenter: MainPresenterProtocol {
         }
     }
     
-    func didSelectCard(name: String, race: String) {
-        mainRouter?.navigateToDetail(withName: name, andRace: race)
+    func didSelectCard(name: String, race: String, image: UIImage?) {
+        mainRouter?.navigateToDetail(withName: name, andRace: race, andImage: image)
     }
     
     func setNavigationController(_ navigationController: UINavigationController?) {

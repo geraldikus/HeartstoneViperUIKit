@@ -13,18 +13,19 @@ typealias DetailEntryPoint = DetailViewProtocol & UIViewController
 protocol DetailRouterProtocol {
     var entry: DetailEntryPoint? { get }
     
-    static func startDetail(name: String, race: String) -> DetailRouterProtocol
+    static func startDetail(name: String, race: String, image: UIImage?) -> DetailRouterProtocol
 }
 
 class DetailScreenRouter: DetailRouterProtocol {
     
     var entry: DetailEntryPoint?
     
-    static func startDetail(name: String, race: String) -> DetailRouterProtocol {
+    static func startDetail(name: String, race: String, image: UIImage?) -> DetailRouterProtocol {
         let router = DetailScreenRouter()
         var view: DetailViewProtocol = DetailScreenViewController()
         view.name = name
         view.race = race
+        view.image = image
         var presenter: DetailPresenterProtocol = DetailScreenPresenter()
         var interactor: DetailInteractorProtocol = DetailScreenInteractor()
         view.detailPresenter = presenter
