@@ -26,7 +26,7 @@ protocol MainPresenterProtocol {
     var mainView: MainViewProtocol? { get set }
     
     func interactorDidFetchData(with result: Result<[Cards], Error>)
-    func didSelectCard(name: String, race: String, image: UIImage?)
+    func didSelectCard(name: String, race: String, image: UIImage?, attack: Int?, health: Int?)
     func setNavigationController(_ navigationController: UINavigationController?)
 }
 
@@ -39,9 +39,9 @@ class MainPresenter: MainPresenterProtocol {
     var mainIntercator: MainInteractorProtocol? {
         didSet {
             mainIntercator?.getdata(for: RacesEndpoints.beast)
-            mainIntercator?.getdata(for: RacesEndpoints.demon)
-            mainIntercator?.getdata(for: RacesEndpoints.dragon)
-            mainIntercator?.getdata(for: RacesEndpoints.murloc)
+//            mainIntercator?.getdata(for: RacesEndpoints.demon)
+//            mainIntercator?.getdata(for: RacesEndpoints.dragon)
+//            mainIntercator?.getdata(for: RacesEndpoints.murloc)
         }
     }
     
@@ -55,8 +55,8 @@ class MainPresenter: MainPresenterProtocol {
         }
     }
     
-    func didSelectCard(name: String, race: String, image: UIImage?) {
-        mainRouter?.navigateToDetail(withName: name, andRace: race, andImage: image)
+    func didSelectCard(name: String, race: String, image: UIImage?, attack: Int?, health: Int?) {
+        mainRouter?.navigateToDetail(withName: name, andRace: race, andImage: image, attack: attack, health: health)
     }
     
     func setNavigationController(_ navigationController: UINavigationController?) {

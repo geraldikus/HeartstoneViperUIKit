@@ -13,6 +13,8 @@ protocol DetailViewProtocol {
     var name: String? { get set }
     var race: String? { get set }
     var image: UIImage? { get set }
+    var attack: Int? { get set }
+    var health: Int? { get set }
     
     func updateData(with image: UIImage)
 }
@@ -24,6 +26,8 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
     var name: String?
     var race: String?
     var image: UIImage?
+    var attack: Int?
+    var health: Int?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -41,7 +45,7 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
         return contentView
     }()
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .purple
         label.font = UIFont.boldSystemFont(ofSize: 22)
@@ -50,13 +54,13 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
         return label
     }()
     
-    let raceLabel: UILabel = {
+    private let raceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let cardImage: UIImageView = {
+    private let cardImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -64,25 +68,62 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
         return image
     }()
     
+    let attackLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Attack"
+        return label
+    }()
+    
+    let healthLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Health"
+        return label
+    }()
+    
+    let attackValueLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        return label
+    }()
+    
+    let healthValueLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupView()
+        setupConstraints()
     }
     
     private func setupView() {
-        self.view.addSubview(scrollView)
-        self.scrollView.addSubview(contentView)
-        self.contentView.addSubview(nameLabel)
-        self.contentView.addSubview(raceLabel)
-        self.contentView.addSubview(cardImage)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(raceLabel)
+        contentView.addSubview(cardImage)
+        contentView.addSubview(attackLabel)
+        contentView.addSubview(healthLabel)
+        contentView.addSubview(attackValueLabel)
+        contentView.addSubview(healthValueLabel)
         
         nameLabel.text = name
         raceLabel.text = race
         cardImage.image = image
+        attackValueLabel.text = "\(String(describing: attack))"
+        healthValueLabel.text = "\(String(describing: health))"
+    }
+    
+    private func setupConstraints() {
         
-        let hConst = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 1.5)
+        let hConst = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         hConst.isActive = true
         hConst.priority = UILayoutPriority(50)
         
@@ -97,25 +138,35 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            hConst,
             
             
             cardImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             cardImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             cardImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             cardImage.heightAnchor.constraint(equalToConstant: 220),
+            cardImage.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             
             nameLabel.topAnchor.constraint(equalTo: cardImage.bottomAnchor, constant: 10),
             nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
             raceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
-            raceLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-         //   raceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            raceLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            attackLabel.topAnchor.constraint(equalTo: raceLabel.bottomAnchor, constant: 20),
+            attackLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            
+            healthLabel.topAnchor.constraint(equalTo: attackLabel.bottomAnchor, constant: 10),
+            healthLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            
+            attackValueLabel.topAnchor.constraint(equalTo: raceLabel.bottomAnchor, constant: 20),
+            attackValueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            
+            healthValueLabel.topAnchor.constraint(equalTo: attackValueLabel.bottomAnchor, constant: 10),
+            healthValueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            healthValueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 
-
-    
     func updateData(with image: UIImage) {
         
     }
