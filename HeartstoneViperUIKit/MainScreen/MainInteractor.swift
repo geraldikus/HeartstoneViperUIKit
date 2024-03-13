@@ -13,47 +13,42 @@ import Alamofire
 // ref to presenter
 // get data or smt like that
 
+
+// 4. Использовать нетворк в интеракторе
+// Тут через протокол я обращаюсь к классу Network и использую оттуда метод request
+
 protocol MainInteractorProtocol {
     var mainPresenter: MainPresenterProtocol? { get set }
-    func getdata(for race: Endpoints)
+    var network: NetworkProtocol? { get set }
+    
+    func getdata(for race: RacesEndpoints)
 }
 
 final class MainInteractor: MainInteractorProtocol {
     
     var mainPresenter: MainPresenterProtocol?
+    var network: NetworkProtocol?
     
-    private func createURL(for race: Endpoints) -> String {
-        let baseURL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/cards/races/"
-        let url = baseURL + race.rawValue
-        return url
+    init(network: NetworkProtocol = Network()) {
+        self.network = network
     }
     
-    func getdata(for race: Endpoints) {
+    func getdata(for race: RacesEndpoints) {
         print("Start fetching data")
         
-        let url = createURL(for: race)
-        
-        let headers: HTTPHeaders = [
-            "X-RapidAPI-Key": "6f7c12bfe7msheef9f26bb3dc196p19f87cjsn5b15ab876cd2",
-            "X-RapidAPI-Host": "omgvamp-hearthstone-v1.p.rapidapi.com"
-        ]
-        
-        AF.request(url, headers: headers).validate()
-            .response { response in
-                guard let data = response.data else {
-                    self.mainPresenter?.interactorDidFetchData(with: .failure(FetchError.failed))
-                    print("Cannot find data")
-                    return
-                }
-                
+        network?.request(endpoint: race.rawValue) { result in
+            switch result {
+            case .success(let data):
                 do {
                     let entities = try JSONDecoder().decode([Cards].self, from: data)
                     self.mainPresenter?.interactorDidFetchData(with: .success(entities))
-                }
-                catch {
+                } catch {
                     self.mainPresenter?.interactorDidFetchData(with: .failure(error))
                 }
+            case .failure(let error):
+                self.mainPresenter?.interactorDidFetchData(with: .failure(error))
             }
+        }
     }
 }
 

@@ -9,4 +9,5 @@ import Foundation
 
 enum FetchError: Error {
     case failed
+    case noData
 }

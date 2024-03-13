@@ -52,7 +52,7 @@ class MainViewController: UIViewController, MainViewProtocol {
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, layoutEnvironment in
-           
+            
             let section = self?.sections[sectionIndex].race
             
             switch section {
@@ -67,12 +67,12 @@ class MainViewController: UIViewController, MainViewProtocol {
 
     
     private func createHorizontalSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(300))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 0, trailing: 8)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(200), heightDimension: .estimated(100))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(200), heightDimension: .estimated(300))
         
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
@@ -188,5 +188,11 @@ extension MainViewController: UICollectionViewDelegate {
         print("Tapped name: \(selectedCard.name)")
         print("Tapped race: \(selectedCard.race)")
         print("Tapped ID: \(selectedCard.cardId)")
+        
+        let newScreen = DetailScreenViewController()
+        newScreen.name = selectedCard.name
+        newScreen.race = selectedCard.race
+        
+        navigationController?.pushViewController(newScreen, animated: true)
     }
 }

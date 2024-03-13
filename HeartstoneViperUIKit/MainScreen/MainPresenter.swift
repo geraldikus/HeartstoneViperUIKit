@@ -17,10 +17,27 @@ protocol MainPresenterProtocol {
     var mainRouter: MainRouterProtocol? { get set }
     var mainView: MainViewProtocol? { get set }
     
+//    var network: NetworkProtocol? { get set }
+    
     func interactorDidFetchData(with result: Result<[Cards], Error>)
 }
 
 class MainPresenter: MainPresenterProtocol {
+    
+    
+//    var network: NetworkProtocol? {
+//        didSet {
+//            network?.getData(races: "races", endpoints: Endpoints.beast, id: nil)
+//            network?.getData(races: "", endpoints: Endpoints.beast, id: nil)
+//        }
+//    }
+    
+    // 1. Презентер через роутер делал навигацию
+    // 2. Данные во вью передавались через роутер
+    // 3  Сделаьть Network все детали реализиции взаимодействия с апи
+    // 3. Кэш данных второго экрана (в нетворке сделать)
+    // 4. Использовать нетворк в интеракторе
+    // 5. DI IOC контейнер - подключить
     
     var mainRouter: MainRouterProtocol?
     
@@ -28,10 +45,10 @@ class MainPresenter: MainPresenterProtocol {
 
     var mainIntercator: MainInteractorProtocol? {
         didSet {
-            mainIntercator?.getdata(for: Endpoints.beast)
-            mainIntercator?.getdata(for: Endpoints.demon)
-            mainIntercator?.getdata(for: Endpoints.dragon)
-            mainIntercator?.getdata(for: Endpoints.murloc)
+            mainIntercator?.getdata(for: RacesEndpoints.beast)
+            mainIntercator?.getdata(for: RacesEndpoints.demon)
+            mainIntercator?.getdata(for: RacesEndpoints.dragon)
+            mainIntercator?.getdata(for: RacesEndpoints.murloc)
         }
     }
     
