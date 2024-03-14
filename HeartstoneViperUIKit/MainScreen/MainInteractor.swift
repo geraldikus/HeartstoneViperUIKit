@@ -36,7 +36,7 @@ final class MainInteractor: MainInteractorProtocol {
     func getdata(for race: RacesEndpoints) {
         print("Start fetching data")
         
-        network?.request(endpoint: race.rawValue) { result in
+        network?.request(endpoint: race.rawValue, shouldCache: false) { result in
             switch result {
             case .success(let data):
                 do {

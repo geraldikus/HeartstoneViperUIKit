@@ -14,7 +14,7 @@ import Alamofire
 // И сделал метод по которому я буду загружать данные.
 
 protocol NetworkProtocol {
-    func request(endpoint: String, completion: @escaping (Result<Data, Error>) -> Void)
+    func request(endpoint: String, shouldCache: Bool, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 final class Network: NetworkProtocol {
@@ -24,26 +24,35 @@ final class Network: NetworkProtocol {
         "X-RapidAPI-Key": "6f7c12bfe7msheef9f26bb3dc196p19f87cjsn5b15ab876cd2",
         "X-RapidAPI-Host": "omgvamp-hearthstone-v1.p.rapidapi.com"
     ]
-
-    func request(endpoint: String, completion: @escaping (Result<Data, Error>) -> Void) {
+    
+    private let dataCache = NSCache<NSString, NSData>()
+    
+    func request(endpoint: String, shouldCache: Bool, completion: @escaping (Result<Data, Error>) -> Void) {
         
         // Тут endpoint может быть любой строкой. То есть если в будущем нам придется загружать
         // данный по id, то можно подставить его или любые другие данные.
+        // Также сделал кэш. Теперь, когда мы будем обращаться в интеракторе к сетевому классу,
+        // нам достаточно будет указать, нужно нам кэширование или нет
         
-        let url = baseURL + endpoint
-        AF.request(url, headers: headers).validate()
-            .response { response in
-                switch response.result {
-                case .success(_):
-                    if let data = response.data {
-                        completion(.success(data))
-                    } else {
-                        completion(.failure(FetchError.noData))
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
+        let fullURL = baseURL + endpoint
+        
+        if shouldCache, let cachedData = dataCache.object(forKey: fullURL as NSString) {
+            print("Returning cached data for \(fullURL)")
+            completion(.success(cachedData as Data))
+            return
+        }
+        
+        AF.request(fullURL, headers: headers).responseData { response in
+            switch response.result {
+            case .success(let data):
+                if shouldCache {
+                    self.dataCache.setObject(data as NSData, forKey: fullURL as NSString)
                 }
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
             }
+        }
     }
 }
 

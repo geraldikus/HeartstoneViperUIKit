@@ -192,8 +192,9 @@ extension MainViewController: UICollectionViewDelegate {
         print("Tapped name: \(selectedCard.name)")
         print("Tapped race: \(selectedCard.race)")
         print("Tapped ID: \(selectedCard.cardId)")
-        print("Attack: \(selectedCard.attack)")
+        print("Attack: \(String(describing: selectedCard.attack))")
         
         mainPresenter?.didSelectCard(name: selectedCard.name, race: selectedCard.race, image: selectedImage, attack: selectedCard.attack, health: selectedCard.health)
+
     }
 }

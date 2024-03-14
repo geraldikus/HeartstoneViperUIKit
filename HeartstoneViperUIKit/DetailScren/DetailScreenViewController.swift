@@ -85,6 +85,7 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
     let attackValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 18, weight: .bold)
 
         return label
     }()
@@ -92,6 +93,7 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
     let healthValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 18, weight: .bold)
 
         return label
     }()
@@ -117,9 +119,20 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
         nameLabel.text = name
         raceLabel.text = race
         cardImage.image = image
-        attackValueLabel.text = "\(String(describing: attack))"
-        healthValueLabel.text = "\(String(describing: health))"
+        
+        if let attack = attack {
+            attackValueLabel.text = "\(attack)🗡️"
+        } else {
+            attackValueLabel.text = "No attack"
+        }
+
+        if let health = health {
+            healthValueLabel.text = "\(health)❤️"
+        } else {
+            healthValueLabel.text = "No health"
+        }
     }
+
     
     private func setupConstraints() {
         
