@@ -17,7 +17,7 @@ protocol MainRouterProtocol {
     var entry: EntryPoint? { get set }
     var navigationController: UINavigationController? { get set }
     
-    static func start() -> MainRouterProtocol
+    static func start(appDependency: AppDependency) -> MainRouterProtocol
     func navigateToDetail(withName name: String, andRace race: String, andImage image: UIImage?, attack: Int?, health: Int?)
 }
 
@@ -25,12 +25,12 @@ class MainRouter: MainRouterProtocol {
     var entry: EntryPoint?
     var navigationController: UINavigationController?
     
-    static func start() -> MainRouterProtocol {
+    static func start(appDependency: AppDependency) -> MainRouterProtocol {
         let router = MainRouter()
         
-        var view: MainViewProtocol = MainViewController()
-        var interactor: MainInteractorProtocol = MainInteractor()
-        var presenter: MainPresenterProtocol = MainPresenter()
+        var view: MainViewProtocol = appDependency.container.resolve(MainViewProtocol.self)!
+        var interactor: MainInteractorProtocol = appDependency.container.resolve(MainInteractorProtocol.self)!
+        var presenter: MainPresenterProtocol = appDependency.container.resolve(MainPresenterProtocol.self)!
         
         view.mainPresenter = presenter
         interactor.mainPresenter = presenter

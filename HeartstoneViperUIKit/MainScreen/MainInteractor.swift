@@ -15,7 +15,6 @@ import Alamofire
 
 
 // 4. Использовать нетворк в интеракторе
-// Тут через протокол я обращаюсь к классу Network и использую оттуда метод request
 
 protocol MainInteractorProtocol {
     var mainPresenter: MainPresenterProtocol? { get set }
@@ -29,12 +28,14 @@ final class MainInteractor: MainInteractorProtocol {
     var mainPresenter: MainPresenterProtocol?
     var network: NetworkProtocol?
     
-    init(network: NetworkProtocol = Network()) {
-        self.network = network
+    init(appDependency: AppDependency) {
+        self.network = appDependency.container.resolve(NetworkProtocol.self)
     }
     
     func getdata(for race: RacesEndpoints) {
         print("Start fetching data")
+        
+        // Тут я обращаюсь к классу Network и использую оттуда метод request
         
         network?.request(endpoint: race.rawValue, shouldCache: false) { result in
             switch result {
