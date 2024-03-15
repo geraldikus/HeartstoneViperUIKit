@@ -22,6 +22,8 @@ class AppDependency {
     }
 
     private func setupDependencies() {
+        
+        //MARK: - Main Screen Dependencies
 
         container.register(NetworkProtocol.self) { _ in Network() }
         
@@ -46,6 +48,25 @@ class AppDependency {
         container.register(MainViewProtocol.self) { r in
             let view = MainViewController()
             view.mainPresenter = r.resolve(MainPresenterProtocol.self)
+            return view
+        }
+        
+        //MARK: - Detail Screen Dependencies
+        
+        container.register(DetailInteractorProtocol.self) { _ in DetailScreenInteractor() }
+        container.register(DetailPresenterProtocol.self) { r in
+            let presenter = DetailScreenPresenter()
+            presenter.detailInteractor = r.resolve(DetailInteractorProtocol.self)
+            return presenter
+        }
+        container.register(DetailRouterProtocol.self) { r in
+            let router = DetailScreenRouter()
+            router.entry = r.resolve(DetailViewProtocol.self) as? DetailEntryPoint
+            return router
+        }
+        container.register(DetailViewProtocol.self) { r in
+            let view = DetailScreenViewController()
+            view.detailPresenter = r.resolve(DetailPresenterProtocol.self)
             return view
         }
     }

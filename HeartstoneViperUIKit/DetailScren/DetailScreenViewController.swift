@@ -15,8 +15,6 @@ protocol DetailViewProtocol {
     var image: UIImage? { get set }
     var attack: Int? { get set }
     var health: Int? { get set }
-    
-    func updateData(with image: UIImage)
 }
 
 class DetailScreenViewController: UIViewController, DetailViewProtocol {
@@ -133,7 +131,6 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
         }
     }
 
-    
     private func setupConstraints() {
         
         let hConst = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
@@ -178,9 +175,5 @@ class DetailScreenViewController: UIViewController, DetailViewProtocol {
             healthValueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             healthValueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-    }
-
-    func updateData(with image: UIImage) {
-        
     }
 }

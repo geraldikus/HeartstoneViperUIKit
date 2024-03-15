@@ -45,7 +45,10 @@ class MainRouter: MainRouterProtocol {
     }
     
     func navigateToDetail(withName name: String, andRace race: String, andImage image: UIImage?, attack: Int?, health: Int?) {
-            let detailRouter = DetailScreenRouter.startDetail(name: name, race: race, image: image, attack: attack, health: health)
+        let appDependency = AppDependency()
+        
+        let detailRouter = DetailScreenRouter.startDetail(appDependency: appDependency, name: name, race: race, image: image, attack: attack, health: health)
+       
         guard let detailView = detailRouter.entry else {
             print("Cannot find detail router")
             return

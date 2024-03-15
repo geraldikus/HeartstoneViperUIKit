@@ -12,8 +12,6 @@ protocol DetailPresenterProtocol {
     var detailInteractor: DetailInteractorProtocol? { get set }
     var detailRouter: DetailRouterProtocol? { get set }
     var detailView: DetailViewProtocol? { get set }
-    
-    func interactorFetchData()
 }
 
 class DetailScreenPresenter: DetailPresenterProtocol {
@@ -22,7 +20,4 @@ class DetailScreenPresenter: DetailPresenterProtocol {
     var detailRouter: DetailRouterProtocol?
     var detailView: DetailViewProtocol?
     
-    func interactorFetchData() {
-        
-    }
 }

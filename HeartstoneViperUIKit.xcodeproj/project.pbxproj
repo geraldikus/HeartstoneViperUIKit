@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3A2F25AB2BA18AF400B8EDCC /* DetailScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F25AA2BA18AF400B8EDCC /* DetailScreenInteractor.swift */; };
 		3A2F25AD2BA18AFD00B8EDCC /* DetailScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F25AC2BA18AFD00B8EDCC /* DetailScreenPresenter.swift */; };
-		3A2F25AF2BA18B0700B8EDCC /* DetailScreenEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F25AE2BA18B0700B8EDCC /* DetailScreenEntity.swift */; };
 		3A2F25B12BA18B0E00B8EDCC /* DetailScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2F25B02BA18B0E00B8EDCC /* DetailScreenRouter.swift */; };
 		3A6193252B8DB7EC0054D1D6 /* CardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6193242B8DB7EC0054D1D6 /* CardCollectionViewCell.swift */; };
 		3AA9A80F2B8724A00002B1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA9A80E2B8724A00002B1CA /* AppDelegate.swift */; };
@@ -36,7 +35,6 @@
 /* Begin PBXFileReference section */
 		3A2F25AA2BA18AF400B8EDCC /* DetailScreenInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenInteractor.swift; sourceTree = "<group>"; };
 		3A2F25AC2BA18AFD00B8EDCC /* DetailScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenPresenter.swift; sourceTree = "<group>"; };
-		3A2F25AE2BA18B0700B8EDCC /* DetailScreenEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenEntity.swift; sourceTree = "<group>"; };
 		3A2F25B02BA18B0E00B8EDCC /* DetailScreenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenRouter.swift; sourceTree = "<group>"; };
 		3A6193242B8DB7EC0054D1D6 /* CardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell.swift; sourceTree = "<group>"; };
 		3AA9A80B2B8724A00002B1CA /* HeartstoneViperUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeartstoneViperUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,7 +77,6 @@
 				3ACC8CEC2BA098B3007DFE83 /* DetailScreenViewController.swift */,
 				3A2F25AA2BA18AF400B8EDCC /* DetailScreenInteractor.swift */,
 				3A2F25AC2BA18AFD00B8EDCC /* DetailScreenPresenter.swift */,
-				3A2F25AE2BA18B0700B8EDCC /* DetailScreenEntity.swift */,
 				3A2F25B02BA18B0E00B8EDCC /* DetailScreenRouter.swift */,
 			);
 			path = DetailScren;
@@ -233,7 +230,6 @@
 				3AA9A8262B87263F0002B1CA /* MainPresenter.swift in Sources */,
 				3A6193252B8DB7EC0054D1D6 /* CardCollectionViewCell.swift in Sources */,
 				3ACC8CEB2BA09344007DFE83 /* Network.swift in Sources */,
-				3A2F25AF2BA18B0700B8EDCC /* DetailScreenEntity.swift in Sources */,
 				3A2F25AB2BA18AF400B8EDCC /* DetailScreenInteractor.swift in Sources */,
 				3AA9A82A2B87265E0002B1CA /* MainRouter.swift in Sources */,
 				3AABF3832BA2FE7C00CBAD8F /* AppDependency.swift in Sources */,

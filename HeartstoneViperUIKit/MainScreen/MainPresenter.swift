@@ -14,8 +14,8 @@ import UIKit
 
 // 1. Презентер через роутер делал навигацию +
 // 2. Данные во вью передавались через роутер +
-// 3  Сделаьть Network все детали реализиции взаимодействия с апи +
-// 4. Кэш данных второго экрана (в нетворке сделать) +-
+// 3  Сделаьть в Network все детали реализиции взаимодействия с апи +
+// 4. Кэш данных второго экрана (в нетворке сделать) +
 // 5. Использовать нетворк в интеракторе +
 // 6. DI IOC контейнер - подключить +
 
@@ -45,12 +45,11 @@ class MainPresenter: MainPresenterProtocol {
     init(appDependency: AppDependency) {
         self.mainIntercator = appDependency.container.resolve(MainInteractorProtocol.self)
         self.mainIntercator?.mainPresenter = self
-        self.mainIntercator?.getdata(for: .beast)
-//        self.mainIntercator?.getdata(for: .demon)
-//        self.mainIntercator?.getdata(for: .dragon)
-//        self.mainIntercator?.getdata(for: .murloc)
         
-        // Я закоментил вызовы и оставил только 1, так как я достиг лимитов по запросам на сервер
+        self.mainIntercator?.getdata(for: .beast)
+        self.mainIntercator?.getdata(for: .demon)
+        self.mainIntercator?.getdata(for: .dragon)
+        self.mainIntercator?.getdata(for: .murloc)
     }
     
     func interactorDidFetchData(with result: Result<[Cards], Error>) {
